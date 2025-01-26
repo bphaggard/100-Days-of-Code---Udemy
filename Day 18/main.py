@@ -40,7 +40,7 @@ def random_walk():
         timmy_turtle.pensize(10)
         timmy_turtle.speed("normal")
         timmy_turtle.forward(30)
-        timmy_turtle.color(random.choice(colors))
+        timmy_turtle.pencolor(random.choice(colors))
         timmy_turtle.setheading(random.choice(directions))
 
 random_walk()
