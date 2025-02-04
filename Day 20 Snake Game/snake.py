@@ -10,13 +10,19 @@ class Snake:
         self.segments = []
 
         for snk in STARTING_POSITIONS:
-            snake = Turtle(shape="square")
-            snake.color("white")
-            snake.penup()
-            snake.goto(snk)
-            self.segments.append(snake)
+            self.add_segment(snk)
 
         self.head = self.segments[0]
+
+    def add_segment(self, position):
+        snake = Turtle(shape="square")
+        snake.color("white")
+        snake.penup()
+        snake.goto(position)
+        self.segments.append(snake)
+
+    def extend(self):
+        self.add_segment(self.segments[-1].position()) #-1 means start counting from last segment in the list
 
     def move(self):
         for move in range(len(self.segments) - 1, 0, -1): #Reverse order. From last to first (2, 1, 0)
