@@ -1,22 +1,22 @@
 from turtle import Turtle
 
-START_POSITION = [(-380, -20), (-380, 0), (-380, 20)]
 MOVE_DISTANCE = 20
 
-class Paddle:
+class Paddle(Turtle):
 
     def __init__(self):
-        self.segment = []
-        self.create_paddle()
-        self.top = self.segment[0]
+        super().__init__()
+        self.shape("square")
+        self.penup()
+        self.shapesize(stretch_len=1, stretch_wid=5)
+        self.color("white")
+        self.goto(-380, 0)
 
-    def create_paddle(self):
-        for position in START_POSITION:
-            paddle = Turtle(shape="square")
-            paddle.color("white")
-            paddle.penup()
-            paddle.goto(position)
-            self.segment.append(position)
+    def move_up(self):
+        new_y = self.ycor() + MOVE_DISTANCE
+        self.goto(self.xcor(), new_y)
 
-    def move(self):
-        pass
+    def move_down(self):
+        new_y = self.ycor() - MOVE_DISTANCE
+        self.goto(self.xcor(), new_y)
+
