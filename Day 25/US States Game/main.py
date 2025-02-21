@@ -20,6 +20,8 @@ def states_final_check():
             missing_states.append(item)
     new_data = pandas.DataFrame(missing_states)
     new_data.to_csv("missing_states.csv")
+    # #List comprehension version
+    # missing_states = [item for item in data["state"] if item not in guessed_states]
 
 while game_on:
     answer_state = screen.textinput(title=f"{game_score}/50 States Correct", prompt="What's another state's name?").title()
