@@ -2,7 +2,8 @@ import tkinter
 
 window = tkinter.Tk()
 window.title("My First GUI Program")
-window.minsize(500, 300)
+#window.minsize(500, 300)
+window.geometry('500x300+200+200') #widthxheight+xcor+ycor
 
 #Label
 my_label = tkinter.Label(text="I'm a Label", font=("Arial", 24, "bold"))
