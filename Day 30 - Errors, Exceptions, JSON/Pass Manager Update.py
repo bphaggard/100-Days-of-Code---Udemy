@@ -41,19 +41,24 @@ def save_password():
     if len(website) < 1 or len(password) < 1:
         messagebox.showerror(title="Oops", message="Please don't leave any fields empty!")
     else:
-        with open("data.json", "r") as data_file:
-            #write: json.dump(new_data, data_file, indent=4)
-            #read: data = json.load(data_file) -> print(data) it will convert json to dictionary with mode="r"
-            #update: it will add new data and will not overwrite
-            #reading old data
-            data = json.load(data_file)
+        try:
+            with open("data.json", "r") as data_file:
+                #write: json.dump(new_data, data_file, indent=4)
+                #read: data = json.load(data_file) -> print(data) it will convert json to dictionary with mode="r"
+                #update: it will add new data and will not overwrite
+                #reading old data
+                data = json.load(data_file)
+        except FileNotFoundError:
+            with open("data.json", "w") as data_file:
+                json.dump(new_data, data_file, indent=4)
+        else:
             #updating old data with new data
             data.update(new_data)
 
-        with open("data.json", "w") as data_file:
-            #saving updated data
-            json.dump(data, data_file, indent=4)
-
+            with open("data.json", "w") as data_file:
+                #saving updated data
+                json.dump(data, data_file, indent=4)
+        finally:
             entry_1.delete(0, END)
             entry_2.delete(0, END)
             entry_3.delete(0, END)
