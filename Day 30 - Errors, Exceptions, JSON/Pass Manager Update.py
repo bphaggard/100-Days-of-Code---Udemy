@@ -28,7 +28,7 @@ def pass_generator():
     pyperclip.copy(shuffled_pass)
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save_password():
-    website = entry_1.get()
+    website = entry_1.get().title()
     email = entry_2.get()
     password = entry_3.get()
     new_data = {
@@ -64,6 +64,21 @@ def save_password():
             entry_3.delete(0, END)
             entry_1.focus()
             entry_2.insert(0, "example@gmail.com")
+# ---------------------------- FIND PASSWORD ------------------------------- #
+def find_password():
+    website = entry_1.get().title()
+    try:
+        with open("data.json", "r") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="No Data File Found")
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {password}")
+        else:
+            messagebox.showinfo(title="Error", message=f"No details for {website} exists")
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Password Manager")
@@ -102,7 +117,7 @@ entry_3 = Entry(width=21)
 entry_3.grid(column=1, row=3)
 
 #Buttons
-search_web = Button(text="Search", width=13)
+search_web = Button(text="Search", width=13, command=find_password)
 search_web.grid(column=2, row=1)
 
 gen_pass = Button(text="Generate Password", command=pass_generator)
