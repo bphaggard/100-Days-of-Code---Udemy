@@ -40,7 +40,7 @@ def sun_time():
 
 while True:
     time.sleep(60)
-    if iss_position() and sun_time():
+    if iss_position():
         with smtplib.SMTP("smtp.gmail.com") as connection:
             connection.starttls() #encrypt the email, secure connection
             connection.login(user=MY_EMAIL, password=PASSWORD)
