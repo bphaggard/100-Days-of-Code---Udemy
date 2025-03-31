@@ -1,6 +1,6 @@
 import requests
 
-API_KEY = "572e1af2f7ffdb42b2248d45b630b14c"
+API_KEY = ""
 
 # MY_LAT = 49.195061 # Brno latitude
 # MY_LONG = 16.606836 # Brno longitude
