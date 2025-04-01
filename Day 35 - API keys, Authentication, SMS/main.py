@@ -1,13 +1,17 @@
 import requests
+import os
+from twilio.rest import Client
 
-API_KEY = "572e1af2f7ffdb42b2248d45b630b14c"
+API_KEY = os.environ.get("OWM_API_KEY")
+account_sid = "AC33b6797ac7f5a4bb66d9c041322f72bc"
+auth_token = os.environ.get("SMS_TOKEN")
 
 # MY_LAT = 49.195061 # Brno latitude
 # MY_LONG = 16.606836 # Brno longitude
 
-# Wien
-MY_LAT = 48.208176
-MY_LONG = 16.373819
+# Sulmona
+MY_LAT = 42.046829
+MY_LONG = 13.925650
 
 weather_params = {
     "lat": MY_LAT,
@@ -26,4 +30,10 @@ data = response.json()
 weather_codes = [data["list"][index]["weather"][0]["id"] for index in range(0, 4)]
 code = any(x <= 700 for x in weather_codes)
 if code:
-    print("Bring an umbrella")
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+        body="It's going to rain today. Remember to bring an ☔️",
+        from_="+13254681675",
+        to="+420608324802"
+    )
+    print(message.status)

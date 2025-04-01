@@ -1,5 +1,5 @@
 import time
-
+import os
 import requests
 import smtplib
 from datetime import datetime
@@ -7,7 +7,7 @@ from datetime import datetime
 MY_LAT = 49.195061
 MY_LONG = 16.606836
 MY_EMAIL = "patrik.mccall@gmail.com"
-PASSWORD = "dwnn dtuu kguf bufr"
+PASSWORD = os.environ.get("EMAIL_PASSWORD")
 
 def iss_position():
     iss_response = requests.get(url="http://api.open-notify.org/iss-now.json")
@@ -42,7 +42,7 @@ while True:
     time.sleep(60)
     if iss_position():
         with smtplib.SMTP("smtp.gmail.com") as connection:
-            connection.starttls() #encrypt the email, secure connection
+            connection.starttls()  # encrypt the email, secure connection
             connection.login(user=MY_EMAIL, password=PASSWORD)
             connection.sendmail(
                 from_addr=MY_EMAIL,

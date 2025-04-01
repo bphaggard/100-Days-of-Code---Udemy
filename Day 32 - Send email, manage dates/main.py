@@ -1,7 +1,8 @@
 import smtplib
+import os
 
 my_email = "patrik.mccall@gmail.com"
-password = "dwnn dtuu kguf bufr"
+password = os.environ.get("EMAIL_PASSWORD")
 
 with smtplib.SMTP("smtp.gmail.com") as connection:
     connection.starttls() #encrypt the email, secure connection

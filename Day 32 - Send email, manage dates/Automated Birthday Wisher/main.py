@@ -1,5 +1,5 @@
 ##################### Normal Starting Project ######################
-
+import os
 # HINT 3: Use dictionary comprehension to create a dictionary from birthday.csv that is formated like this:
 # birthdays_dict = {
 #     (birthday_month, birthday_day): data_row
@@ -34,7 +34,7 @@ import datetime as dt
 import pandas
 
 my_email = "patrik.mccall@gmail.com"
-password = "dwnn dtuu kguf bufr"
+password = os.environ.get("EMAIL_PASSWORD")
 
 current_datetime = dt.datetime.now()
 current_date = (current_datetime.month, current_datetime.day)
