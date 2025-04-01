@@ -33,7 +33,7 @@ if code:
     client = Client(account_sid, auth_token)
     message = client.messages.create(
         body="It's going to rain today. Remember to bring an ☔️",
-        from_="+13254681675",
-        to="+420608324802"
+        from_="", # Twilio number
+        to="" # My number
     )
     print(message.status)
