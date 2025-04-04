@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import requests
 import os
 
@@ -10,55 +11,37 @@ NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 STOCK_API = os.environ.get("STOCK_API")
 NEWS_API = os.environ.get("NEWS_API")
 
-    ## STEP 1: Use https://www.alphavantage.co/documentation/#daily
-# When stock price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
+# DATETIME
+yesterday = datetime.now() - timedelta(1)
+before_yesterday = datetime.now() - timedelta(2)
+date_yesterday = yesterday.strftime('%Y-%m-%d')
+date_before_yesterday = before_yesterday.strftime('%Y-%m-%d')
+
+# STOCK API
 stock_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={STOCK_NAME}&apikey={STOCK_API}"
 stock_response = requests.get(stock_url)
 stock_response.raise_for_status()
 stock_data = stock_response.json()
 
-news_url = f"https://newsapi.org/v2/everything?q={COMPANY_NAME}&from=2025-04-01&sortBy=popularity&apiKey={NEWS_API}"
+# NEWS API
+news_url = f"https://newsapi.org/v2/everything?q={COMPANY_NAME}&from={date_yesterday}&sortBy=popularity&apiKey={NEWS_API}"
 news_response = requests.get(news_url)
 news_response.raise_for_status()
 news_data = news_response.json()
 
-print(stock_data["Time Series (Daily)"])
-print(news_data["articles"])
+# Comparing prices
+def compare_close_price():
+    yesterday_price = float(stock_data["Time Series (Daily)"][date_yesterday]["4. close"])
+    before_yesterday_price = float(stock_data["Time Series (Daily)"][date_before_yesterday]["4. close"])
+    if yesterday_price == before_yesterday_price:
+        return "0 %"
+    try:
+        return str(round((abs(yesterday_price - before_yesterday_price) / before_yesterday_price) * 100.0, 2)) + " %"
+    except ZeroDivisionError:
+        return "0 %"
 
-#TODO 1. - Get yesterday's closing stock price. Hint: You can perform list comprehensions on Python dictionaries. e.g. [new_value for (key, value) in dictionary.items()]
+print(compare_close_price())
 
-#TODO 2. - Get the day before yesterday's closing stock price
-
-#TODO 3. - Find the positive difference between 1 and 2. e.g. 40 - 20 = -20, but the positive difference is 20. Hint: https://www.w3schools.com/python/ref_func_abs.asp
-
-#TODO 4. - Work out the percentage difference in price between closing price yesterday and closing price the day before yesterday.
-
-#TODO 5. - If TODO4 percentage is greater than 5 then print("Get News").
-
-    ## STEP 2: https://newsapi.org/
-    # Instead of printing ("Get News"), actually get the first 3 news pieces for the COMPANY_NAME.
-
-#TODO 6. - Instead of printing ("Get News"), use the News API to get articles related to the COMPANY_NAME.
-
-#TODO 7. - Use Python slice operator to create a list that contains the first 3 articles. Hint: https://stackoverflow.com/questions/509211/understanding-slice-notation
-
-
-    ## STEP 3: Use twilio.com/docs/sms/quickstart/python
-    #to send a separate message with each article's title and description to your phone number.
-
-#TODO 8. - Create a new list of the first 3 article's headline and description using list comprehension.
-
-#TODO 9. - Send each article as a separate message via Twilio.
-
-
-
-#Optional TODO: Format the message like this:
-"""
-TSLA: 🔺2%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-or
-"TSLA: 🔻5%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-"""
+if compare_close_price() > "5":
+    articles_list = [news_data["articles"][index]["title"] for index in range(0, 3)]
+    print(articles_list)
