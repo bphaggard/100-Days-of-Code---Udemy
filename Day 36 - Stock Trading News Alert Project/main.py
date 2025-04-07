@@ -31,17 +31,20 @@ news_data = news_response.json()
 
 # Comparing prices
 def compare_close_price():
-    yesterday_price = float(stock_data["Time Series (Daily)"][date_yesterday]["4. close"])
-    before_yesterday_price = float(stock_data["Time Series (Daily)"][date_before_yesterday]["4. close"])
-    if yesterday_price == before_yesterday_price:
-        return "0 %"
-    try:
-        return str(round((abs(yesterday_price - before_yesterday_price) / before_yesterday_price) * 100.0, 2)) + " %"
-    except ZeroDivisionError:
-        return "0 %"
+    if yesterday.weekday() >= 5:
+        return "Yesterday was weekend. Stock market was closed."
+    else:
+        yesterday_price = float(stock_data["Time Series (Daily)"][date_yesterday]["4. close"])
+        before_yesterday_price = float(stock_data["Time Series (Daily)"][date_before_yesterday]["4. close"])
+        if yesterday_price == before_yesterday_price:
+            return "0 %"
+        try:
+            return str(round((abs(yesterday_price - before_yesterday_price) / before_yesterday_price) * 100.0, 2)) + " %"
+        except ZeroDivisionError:
+            return "0 %"
 
 print(compare_close_price())
 
 if compare_close_price() > "5":
-    articles_list = [news_data["articles"][index]["title"] for index in range(0, 3)]
+    articles_list = [f"Title: {news_data["articles"][index]["title"]}. Desc: {news_data["articles"][index]["description"]}" for index in range(0, 3)]
     print(articles_list)
