@@ -45,5 +45,16 @@ pixel_config = {
 }
 
 pixel_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}"
-response = requests.post(url=pixel_endpoint, json=pixel_config, headers=headers)
+# response = requests.post(url=pixel_endpoint, json=pixel_config, headers=headers)
+# print(response.text)
+
+# Update pixel in the graph
+update_data = {
+    "quantity": "15.8"
+}
+# response = requests.put(url=f"{pixel_endpoint}/20250406", json=update_data, headers=headers)
+# print(response.text)
+
+# Delete pixel from the graph
+response = requests.delete(url=f"{pixel_endpoint}/20250406", headers=headers)
 print(response.text)
