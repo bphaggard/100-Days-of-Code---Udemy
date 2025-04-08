@@ -1,6 +1,8 @@
 import requests
 from datetime import datetime
 
+from dateutil.utils import today
+
 USERNAME = "patrick89"
 TOKEN = "kujdfg56er69"
 GRAPH_ID = "graph1"
@@ -36,11 +38,11 @@ headers = {
 # print(response.text)
 
 # Add pixel to the graph
+today_day = datetime(year=2025, month=4, day=6)
 pixel_config = {
-    "date": "20250408",
-    "quantity": "10.5"
+    "date": today_day.strftime("%Y%m%d"), # https://www.w3schools.com/python/python_datetime.asp
+    "quantity": "30.5"
 }
-today = datetime.now()
 
 pixel_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}"
 response = requests.post(url=pixel_endpoint, json=pixel_config, headers=headers)
