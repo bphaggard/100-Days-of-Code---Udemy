@@ -8,3 +8,4 @@ insta_password = os.getenv("INSTA_PASSWORD")
 
 insta_follower_bot = InstaFollower(insta_email, insta_password)
 insta_follower_bot.login()
+insta_follower_bot.find_followers()

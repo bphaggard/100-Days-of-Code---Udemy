@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 
 class InstaFollower:
 
@@ -51,7 +52,35 @@ class InstaFollower:
             print("The 'Not now' button did not appear or could not be clicked.")
 
     def find_followers(self):
-        pass
+        self.driver.get("https://www.instagram.com/chefsteps/")
+        followers_button = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '//a[contains(@href, "/followers")]'))
+        )
+        followers_button.click()
+        time.sleep(5)
+
+        # Get the scrollable element
+        scr1 = self.driver.find_element(By.XPATH,
+                                        '/html/body/div[4]/div[2]/div/div/div[1]/div/div[2]/div/div/div/div/div[2]/div/div/div[3]')
+
+        # Initialize variables to track progress
+        last_height = self.driver.execute_script("return arguments[0].scrollHeight", scr1)
+
+        while True:
+            # Scroll to the bottom
+            self.driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", scr1)
+
+            # Wait for new content to load (adjust time as needed)
+            time.sleep(2)
+
+            # Check the new scroll height
+            new_height = self.driver.execute_script("return arguments[0].scrollHeight", scr1)
+
+            if new_height == last_height:
+                # No new content loaded; end of scroll
+                break
+
+            last_height = new_height
 
     def follow(self):
         pass
