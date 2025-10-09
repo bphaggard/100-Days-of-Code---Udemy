@@ -12,8 +12,8 @@ def home_page():
     current_year = datetime.datetime.now().year
     return render_template("index.html", num=random_number, year=current_year)
 
-@app.route("/blog")
-def blog():
+@app.route("/blog/<num>")
+def blog_page(num):
     response_blog = requests.get("https://api.npoint.io/c790b4d5cab58020d391")
     response_blog.raise_for_status()
     blog_data = response_blog.json()
