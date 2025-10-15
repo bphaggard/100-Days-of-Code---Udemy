@@ -7,11 +7,11 @@
 <body>
 <h1>Flask HTML Forms</h1>
 
-<form>
-    <label for="fname">Name:</label>
-    <input type="text" id="fname" name="fname" value="name">
-    <label for="lname">Password:</label>
-    <input type="text" id="lname" name="lname" value="password">
+<form action="{{ url_for('receive_data') }}" method="post">
+    <label>Name:</label>
+    <input type="text" name="username" placeholder="name">
+    <label>Password:</label>
+    <input type="text" name="password" placeholder="password">
     <button type="submit">OK</button>
 </form>
 </body>
