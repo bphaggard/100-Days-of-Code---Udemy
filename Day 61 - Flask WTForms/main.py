@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, validators
 from wtforms.validators import DataRequired
+from flask_bootstrap import Bootstrap4
 import os
 
 '''
@@ -18,6 +19,7 @@ This will install the packages from requirements.txt for this project.
 '''
 
 app = Flask(__name__)
+bootstrap = Bootstrap4(app)
 app.secret_key = os.getenv("SECRET_KEY")
 
 class MyForm(FlaskForm):
