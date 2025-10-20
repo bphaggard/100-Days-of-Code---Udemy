@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired
 
 '''
 Red underlines? Install the required packages first: 
@@ -17,16 +20,25 @@ app = Flask(__name__)
 
 all_books = []
 
+class BookForm(FlaskForm):
+    name = StringField('Book Name', validators=[DataRequired()])
+    author = StringField('Book Author', validators=[DataRequired()])
+    rating = StringField('Book Rating', validators=[DataRequired()])
 
 @app.route('/')
 def home():
-    pass
+    return render_template("index.html", books=all_books)
 
-
-@app.route("/add")
+@app.route("/add", methods=['GET', 'POST'])
 def add():
-    pass
-
+    if request.method == "POST":
+        all_books.append({
+            "title": request.form["title"],
+            "author": request.form["author"],
+            "rating": request.form["rating"]
+        })
+        return render_template("index.html", books=all_books)
+    return render_template("add.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
