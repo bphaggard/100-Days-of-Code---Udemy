@@ -10,9 +10,11 @@
     <p>Library is empty.</p>
     {% endif %}
     <ul>
-        {% for new_book in books %}
+        {% for book in books %}
         <li>
-            {{new_book.title}} - {{new_book.author}} - {{new_book.rating}}
+            <a href="{{ url_for('delete_book', book_id=book.id) }}" onclick="return confirm('Are you sure you want to delete this book?')">Delete Book</a>
+            {{book.title}} - {{book.author}} - {{book.rating}}/10
+            <a href="{{ url_for('edit_rating', book_id=book.id) }}">Edit Rating</a>
         </li>
         {% endfor %}
     </ul>
