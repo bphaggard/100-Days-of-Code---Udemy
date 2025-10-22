@@ -1,9 +1,49 @@
 {% extends 'base.html' %}
-
 {% block title %}Add Movie{% endblock %}
-
 {% block content %}
-<div class="content">
-    <h1 class="heading">Add a Movie</h1>
+<div class="container mt-5">
+  <h1 class="mb-4 text-center">Add a New Movie</h1>
+  <form method="POST" action="">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.title.label(class="form-label") }}
+      {{ form.title(class="form-control", placeholder="Enter movie title") }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.year.label(class="form-label") }}
+      {{ form.year(class="form-control", placeholder="e.g. 2024") }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.description.label(class="form-label") }}
+      {{ form.description(class="form-control", rows="3", placeholder="Write a short description") }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.rating.label(class="form-label") }}
+      {{ form.rating(class="form-control", placeholder="0–10") }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.ranking.label(class="form-label") }}
+      {{ form.ranking(class="form-control", placeholder="1 = top movie") }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.review.label(class="form-label") }}
+      {{ form.review(class="form-control", rows="3", placeholder="Your review") }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.img_url.label(class="form-label") }}
+      {{ form.img_url(class="form-control", placeholder="https://...") }}
+    </div>
+
+    <div class="text-center">
+      {{ form.submit(class="btn btn-primary btn-lg") }}
+    </div>
+  </form>
 </div>
 {% endblock %}
